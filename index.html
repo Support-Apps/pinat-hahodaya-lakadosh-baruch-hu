@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פינת הודיה</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --pink: #f8bbd9; --mint: #98d8c8; --gold: #d4af37; --light-pink: #fff5f7; }
+        body { font-family: 'Heebo', sans-serif; background: var(--light-pink); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .bsd { text-align: right; font-size: 0.9em; color: #8b7f8e; margin-bottom: 5px; }
+        h1 { text-align: center; font-size: 2.2em; color: var(--gold); margin-bottom: 5px; }
+        .subtitle { text-align: center; color: var(--gold); font-size: 1.1em; margin-bottom: 5px; }
+        .dedication { text-align: center; color: #8b7f8e; font-size: 0.95em; margin-bottom: 25px; font-style: italic; }
+        .card { background: white; border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 40px rgba(248,187,217,0.3); }
+        .intro-section { background: var(--light-pink); border-radius: 20px; padding: 25px; margin-bottom: 25px; line-height: 1.9; }
+        .intro-title { font-size: 1.3em; color: var(--gold); font-weight: 700; text-align: center; margin-bottom: 15px; }
+        .intro-text { margin-bottom: 15px; color: #2d1b2e; }
+        .tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab { padding: 12px 20px; background: white; border: 2px solid var(--gold); border-radius: 20px; cursor: pointer; font-family: 'Heebo', sans-serif; font-weight: 600; transition: all 0.3s; }
+        .tab:hover { background: var(--light-pink); }
+        .tab.active { background: var(--gold); color: white; border-color: var(--gold); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .section-title { font-size: 1.2em; color: var(--gold); text-align: center; margin-bottom: 20px; font-weight: 600; }
+        .gratitude-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+        .category-card { background: var(--light-pink); border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .category-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .category-icon { font-size: 2.5em; margin-bottom: 10px; }
+        .category-name { font-weight: 600; color: var(--gold); }
+        .gratitude-input { background: var(--light-pink); border-radius: 20px; padding: 25px; margin: 20px 0; }
+        .input-title { font-weight: 600; color: var(--gold); margin-bottom: 15px; text-align: center; font-size: 1.1em; }
+        textarea { width: 100%; min-height: 120px; padding: 15px; border: 2px solid var(--pink); border-radius: 15px; font-family: 'Heebo', sans-serif; font-size: 1em; resize: vertical; background: white; }
+        textarea:focus { outline: none; border-color: var(--mint); }
+        .btn { padding: 12px 30px; border: none; border-radius: 25px; font-family: 'Heebo', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.3s; margin: 5px; }
+        .btn-save { background: var(--mint); color: white; }
+        .btn-save:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(152,216,200,0.4); }
+        .btn-gold { background: var(--gold); color: white; }
+        .btn-speak { background: var(--pink); color: white; }
+        .btn-group { display: flex; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .saved-items { margin-top: 20px; }
+        .saved-item { background: var(--light-pink); border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; border-right: 4px solid var(--gold); }
+        .saved-content { flex: 1; line-height: 1.6; }
+        .saved-date { font-size: 0.8em; color: #8b7f8e; margin-top: 8px; }
+        .delete-btn { background: none; border: none; color: #ff6b6b; font-size: 1.3em; cursor: pointer; padding: 5px; }
+        .speak-btn { background: none; border: none; color: var(--gold); font-size: 1.3em; cursor: pointer; padding: 5px; }
+        .quote-box { background: var(--light-pink); border-right: 4px solid var(--gold); padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center; }
+        .quote-text { font-size: 1.2em; color: var(--gold); font-weight: 500; line-height: 1.8; }
+        .daily-gratitude { background: var(--light-pink); border: 3px solid var(--gold); border-radius: 20px; padding: 25px; margin: 20px 0; }
+        .daily-title { color: var(--gold); font-weight: 700; font-size: 1.2em; text-align: center; margin-bottom: 20px; }
+        .gratitude-prompt { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .prompt-number { display: inline-block; width: 30px; height: 30px; background: var(--gold); color: white; border-radius: 50%; text-align: center; line-height: 30px; font-weight: 700; margin-left: 10px; }
+        .blessing-section { background: var(--light-pink); border-radius: 20px; padding: 25px; margin: 20px 0; text-align: center; }
+        .blessing-title { color: var(--gold); font-weight: 600; margin-bottom: 15px; }
+        .blessing-text { font-size: 1.1em; line-height: 1.8; }
+        .counter-section { background: var(--light-pink); border-radius: 15px; padding: 20px; text-align: center; margin: 20px 0; }
+        .counter-title { font-weight: 600; color: var(--gold); margin-bottom: 10px; }
+        .counter-value { font-size: 3em; font-weight: 700; color: var(--gold); }
+        .counter-label { color: #8b7f8e; font-size: 0.9em; }
+        .tip-box { background: var(--light-pink); border-radius: 15px; padding: 20px; margin: 20px 0; border-right: 4px solid var(--mint); }
+        .tip-title { font-weight: 600; color: var(--mint); margin-bottom: 10px; }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--mint); color: white; padding: 15px 30px; border-radius: 30px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .reminder-list { margin: 20px 0; }
+        .reminder-item { display: flex; align-items: center; gap: 15px; background: var(--light-pink); border-radius: 15px; padding: 15px 20px; margin-bottom: 12px; flex-wrap: wrap; }
+        .reminder-icon { font-size: 1.8em; }
+        .reminder-info { flex: 1; min-width: 120px; }
+        .reminder-name { font-weight: 600; color: #2d1b2e; }
+        .reminder-desc { font-size: 0.85em; color: #8b7f8e; }
+        .time-input { padding: 8px 12px; border: 2px solid var(--mint); border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 1em; background: white; }
+        .toggle-switch { position: relative; width: 50px; height: 26px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 26px; transition: 0.3s; }
+        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+        .toggle-switch input:checked + .toggle-slider { background: var(--mint); }
+        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+        .reminder-messages { background: var(--light-pink); border-radius: 15px; padding: 20px; margin: 20px 0; }
+        .message-list { margin-top: 15px; }
+        .message-item { background: white; border-radius: 10px; padding: 12px 15px; margin-bottom: 8px; border-right: 3px solid var(--gold); }
+        .message-text { color: #2d1b2e; }
+        @media (max-width: 500px) { h1 { font-size: 1.8em; } .gratitude-categories { grid-template-columns: repeat(2, 1fr); } .reminder-item { padding: 12px 15px; } .time-input { width: 100px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bsd">בס"ד</div>
+        <h1>פינת הודיה</h1>
+        <p class="subtitle">הכרת הטוב לקדוש ברוך הוא</p>
+        <p class="dedication">עבור עינת מים 💙</p>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('intro', this)">🏠 מבוא</button>
+            <button class="tab" onclick="showTab('daily', this)">🌅 יומית</button>
+            <button class="tab" onclick="showTab('categories', this)">📂 קטגוריות</button>
+            <button class="tab" onclick="showTab('reminders', this)">⏰ תזכורות</button>
+            <button class="tab" onclick="showTab('journal', this)">📝 יומן</button>
+        </div>
+
+        <!-- INTRO TAB -->
+        <div id="intro" class="tab-content active">
+            <div class="card">
+                <div class="intro-section">
+                    <div class="intro-title">מהי הודיה?</div>
+                    <div class="intro-text">
+                        <strong>הודיה</strong> היא הכרת הטוב - היכולת לראות את הברכות שיש לנו ולהודות עליהן לקדוש ברוך הוא.
+                    </div>
+                    <div class="intro-text">
+                        כמו שמים זורמים ומחיים - כך ההודיה מזרימה שפע וברכה לחיינו. 💙
+                    </div>
+                </div>
+
+                <div class="quote-box">
+                    <div class="quote-text">
+                        "מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם<br>
+                        שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה<br>
+                        רַבָּה אֱמוּנָתֶךָ"
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-title">💡 למה הודיה חשובה?</div>
+                    <div style="line-height:1.7;">
+                        • מעלה את מצב הרוח<br>
+                        • פותחת את הלב לשפע<br>
+                        • מחזקת את הקשר עם הקדוש ברוך הוא<br>
+                        • משנה את הפוקוס מחוסר לשפע<br>
+                        • מביאה שמחה וסיפוק
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-gold" onclick="document.querySelectorAll('.tab')[1].click()">🌅 התחל להודות</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- DAILY TAB -->
+        <div id="daily" class="tab-content">
+            <div class="card">
+                <div class="section-title">🌅 הודיה יומית</div>
+
+                <div class="daily-gratitude">
+                    <div class="daily-title">3 דברים שאני מודה עליהם היום:</div>
+                    
+                    <div class="gratitude-prompt">
+                        <span class="prompt-number">1</span>
+                        <textarea id="daily-1" placeholder="על מה אני מודה?"></textarea>
+                    </div>
+                    
+                    <div class="gratitude-prompt">
+                        <span class="prompt-number">2</span>
+                        <textarea id="daily-2" placeholder="על מה אני מודה?"></textarea>
+                    </div>
+                    
+                    <div class="gratitude-prompt">
+                        <span class="prompt-number">3</span>
+                        <textarea id="daily-3" placeholder="על מה אני מודה?"></textarea>
+                    </div>
+                </div>
+
+                <div class="gratitude-input">
+                    <div class="input-title">💧 הודיה מיוחדת להיום:</div>
+                    <textarea id="daily-special" placeholder="משהו מיוחד שקרה היום ואני רוצה להודות עליו..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-save" onclick="saveDaily()">💾 שמור הודיה יומית</button>
+                </div>
+                <div id="daily-saved" class="saved-items"></div>
+            </div>
+        </div>
+
+        <!-- CATEGORIES TAB -->
+        <div id="categories" class="tab-content">
+            <div class="card">
+                <div class="section-title">📂 קטגוריות הודיה</div>
+                <p style="text-align:center;color:#8b7f8e;margin-bottom:20px;">בחר קטגוריה והוסף הודיה</p>
+
+                <div class="gratitude-categories">
+                    <div class="category-card" onclick="selectCategory('health')">
+                        <div class="category-icon">💪</div>
+                        <div class="category-name">בריאות</div>
+                    </div>
+                    <div class="category-card" onclick="selectCategory('family')">
+                        <div class="category-icon">👨‍👩‍👧‍👦</div>
+                        <div class="category-name">משפחה</div>
+                    </div>
+                    <div class="category-card" onclick="selectCategory('friends')">
+                        <div class="category-icon">💝</div>
+                        <div class="category-name">חברים</div>
+                    </div>
+                    <div class="category-card" onclick="selectCategory('home')">
+                        <div class="category-icon">🏠</div>
+                        <div class="category-name">בית</div>
+                    </div>
+                    <div class="category-card" onclick="selectCategory('work')">
+                        <div class="category-icon">💼</div>
+                        <div class="category-name">פרנסה</div>
+                    </div>
+                    <div class="category-card" onclick="selectCategory('nature')">
+                        <div class="category-icon">🌿</div>
+                        <div class="category-name">טבע</div>
+                    </div>
+                    <div class="category-card" onclick="selectCategory('spiritual')">
+                        <div class="category-icon">✨</div>
+                        <div class="category-name">רוחניות</div>
+                    </div>
+                    <div class="category-card" onclick="selectCategory('water')">
+                        <div class="category-icon">💧</div>
+                        <div class="category-name">מים</div>
+                    </div>
+                </div>
+
+                <div class="gratitude-input" id="category-input" style="display:none;">
+                    <div class="input-title" id="category-title">הודיה:</div>
+                    <textarea id="category-text" placeholder="על מה אתה מודה בקטגוריה הזו?"></textarea>
+                    <div class="btn-group">
+                        <button class="btn btn-save" onclick="saveCategory()">💾 שמור</button>
+                    </div>
+                </div>
+
+                <div id="categories-saved" class="saved-items"></div>
+            </div>
+        </div>
+
+        <!-- REMINDERS TAB -->
+        <div id="reminders" class="tab-content">
+            <div class="card">
+                <div class="section-title">⏰ תזכורות להודיה</div>
+                
+                <div class="intro-section" style="padding:20px;">
+                    <div class="intro-text" style="text-align:center;margin:0;">
+                        הגדר תזכורות יומיות להודיה 💙<br>
+                        <span style="font-size:0.9em;color:#8b7f8e;">התזכורות יופיעו כהתראות בדפדפן</span>
+                    </div>
+                </div>
+
+                <div class="reminder-list">
+                    <div class="reminder-item">
+                        <div class="reminder-icon">🌅</div>
+                        <div class="reminder-info">
+                            <div class="reminder-name">תזכורת בוקר</div>
+                            <div class="reminder-desc">התחל את היום בהודיה</div>
+                        </div>
+                        <input type="time" id="morning-time" class="time-input" value="07:00">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="morning-toggle" onchange="toggleReminder('morning')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="reminder-item">
+                        <div class="reminder-icon">☀️</div>
+                        <div class="reminder-info">
+                            <div class="reminder-name">תזכורת צהריים</div>
+                            <div class="reminder-desc">עצור להודות באמצע היום</div>
+                        </div>
+                        <input type="time" id="noon-time" class="time-input" value="12:00">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="noon-toggle" onchange="toggleReminder('noon')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="reminder-item">
+                        <div class="reminder-icon">🌙</div>
+                        <div class="reminder-info">
+                            <div class="reminder-name">תזכורת ערב</div>
+                            <div class="reminder-desc">סכם את היום בהודיה</div>
+                        </div>
+                        <input type="time" id="evening-time" class="time-input" value="21:00">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="evening-toggle" onchange="toggleReminder('evening')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="reminder-item">
+                        <div class="reminder-icon">✨</div>
+                        <div class="reminder-info">
+                            <div class="reminder-name">תזכורת מותאמת</div>
+                            <div class="reminder-desc">הוסף תזכורת בשעה שלך</div>
+                        </div>
+                        <input type="time" id="custom-time" class="time-input" value="15:00">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="custom-toggle" onchange="toggleReminder('custom')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="reminder-messages">
+                    <div class="input-title">💬 הודעות תזכורת:</div>
+                    <div class="message-list">
+                        <div class="message-item" id="msg-1">
+                            <span class="message-text">💧 זה הזמן להודות! על מה תודה היום?</span>
+                        </div>
+                        <div class="message-item" id="msg-2">
+                            <span class="message-text">✨ עצור רגע - מה הדבר הטוב שקרה לך?</span>
+                        </div>
+                        <div class="message-item" id="msg-3">
+                            <span class="message-text">🙏 הודיה פותחת שערי שפע!</span>
+                        </div>
+                        <div class="message-item" id="msg-4">
+                            <span class="message-text">💙 ההודיה מחברת אותנו לקדוש ברוך הוא!</span>
+                        </div>
+                        <div class="message-item" id="msg-5">
+                            <span class="message-text">🌟 מודה אני לפניך - על מה אתה מודה?</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-save" onclick="saveReminders()">💾 שמור הגדרות</button>
+                    <button class="btn btn-gold" onclick="testNotification()">🔔 בדוק התראה</button>
+                </div>
+
+                <div class="tip-box" style="margin-top:20px;">
+                    <div class="tip-title">💡 טיפ:</div>
+                    <div style="line-height:1.7;">
+                        כדי לקבל התראות, יש לאשר הרשאות התראות בדפדפן.<br>
+                        השאר את הדף פתוח ברקע כדי לקבל תזכורות.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JOURNAL TAB -->
+        <div id="journal" class="tab-content">
+            <div class="card">
+                <div class="section-title">📝 יומן הודיה</div>
+
+                <div class="counter-section">
+                    <div class="counter-title">סה"כ הודיות שכתבת:</div>
+                    <div class="counter-value" id="gratitude-counter">0</div>
+                    <div class="counter-label">פעמים שהודית לקדוש ברוך הוא 💙</div>
+                    <div class="btn-group" style="margin-top:15px;">
+                        <button class="btn btn-speak" onclick="speakAllGratitudes()">🔊 הקרא את כל ההודיות</button>
+                        <button class="btn btn-gold" onclick="stopSpeaking()">⏹️ עצור</button>
+                    </div>
+                </div>
+
+                <div class="gratitude-input">
+                    <div class="input-title">💧 הודיה חופשית:</div>
+                    <textarea id="journal-text" placeholder="כתוב כל מה שאתה מודה עליו לקדוש ברוך הוא..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-save" onclick="saveJournal()">💾 שמור</button>
+                </div>
+                <div id="journal-saved" class="saved-items"></div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">נשמר בהצלחה! 💧</div>
+
+    <script>
+        var selectedCategoryValue = '';
+        var categoryNames = {
+            health: '💪 בריאות',
+            family: '👨‍👩‍👧‍👦 משפחה',
+            friends: '💝 חברים',
+            home: '🏠 בית',
+            work: '💼 פרנסה',
+            nature: '🌿 טבע',
+            spiritual: '✨ רוחניות',
+            water: '💧 מים'
+        };
+
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function selectCategory(cat) {
+            selectedCategoryValue = cat;
+            document.getElementById('category-input').style.display = 'block';
+            document.getElementById('category-title').textContent = 'הודיה על: ' + categoryNames[cat];
+            document.getElementById('category-text').focus();
+        }
+
+        function showToast(msg) {
+            var toast = document.getElementById('toast');
+            toast.textContent = msg || 'נשמר בהצלחה! 💧';
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 2500);
+        }
+
+        function speakGratitude(encodedText) {
+            var text = decodeURIComponent(encodedText);
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'he-IL';
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                
+                var voices = window.speechSynthesis.getVoices();
+                var hebrewVoice = voices.find(function(v) { return v.lang.includes('he'); });
+                if (hebrewVoice) {
+                    utterance.voice = hebrewVoice;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+                showToast('מקריא את ההודיה... 🔊');
+            } else {
+                showToast('הדפדפן לא תומך בהקראה');
+            }
+        }
+
+        function speakAllGratitudes() {
+            var allText = 'תודה לך הקדוש ברוך הוא. ';
+            ['daily', 'categories', 'journal'].forEach(function(key) {
+                var saved = JSON.parse(localStorage.getItem('gratitude_' + key) || '[]');
+                saved.forEach(function(item) {
+                    if (item.item1) allText += item.item1 + '. ';
+                    if (item.item2) allText += item.item2 + '. ';
+                    if (item.item3) allText += item.item3 + '. ';
+                    if (item.special) allText += item.special + '. ';
+                    if (item.text) allText += item.text + '. ';
+                });
+            });
+            speakGratitude(encodeURIComponent(allText));
+        }
+
+        function stopSpeaking() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                showToast('ההקראה הופסקה');
+            }
+        }
+
+        // Load voices
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        function getDate() {
+            return new Date().toLocaleDateString('he-IL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function deleteItem(key, index) {
+            var saved = JSON.parse(localStorage.getItem('gratitude_' + key) || '[]');
+            saved.splice(index, 1);
+            localStorage.setItem('gratitude_' + key, JSON.stringify(saved));
+            renderSaved(key);
+            updateCounter();
+        }
+
+        function updateCounter() {
+            var total = 0;
+            ['daily', 'categories', 'journal'].forEach(function(key) {
+                var saved = JSON.parse(localStorage.getItem('gratitude_' + key) || '[]');
+                total += saved.length;
+            });
+            document.getElementById('gratitude-counter').textContent = total;
+        }
+
+        function saveDaily() {
+            var d = {
+                item1: document.getElementById('daily-1').value,
+                item2: document.getElementById('daily-2').value,
+                item3: document.getElementById('daily-3').value,
+                special: document.getElementById('daily-special').value,
+                date: getDate()
+            };
+            if (!d.item1 && !d.item2 && !d.item3 && !d.special) { showToast('אין מה לשמור'); return; }
+            var saved = JSON.parse(localStorage.getItem('gratitude_daily') || '[]');
+            saved.unshift(d);
+            localStorage.setItem('gratitude_daily', JSON.stringify(saved));
+            document.getElementById('daily-1').value = '';
+            document.getElementById('daily-2').value = '';
+            document.getElementById('daily-3').value = '';
+            document.getElementById('daily-special').value = '';
+            renderSaved('daily');
+            updateCounter();
+            showToast();
+        }
+
+        function saveCategory() {
+            var text = document.getElementById('category-text').value;
+            if (!text) { showToast('אין מה לשמור'); return; }
+            var d = {
+                category: categoryNames[selectedCategoryValue],
+                text: text,
+                date: getDate()
+            };
+            var saved = JSON.parse(localStorage.getItem('gratitude_categories') || '[]');
+            saved.unshift(d);
+            localStorage.setItem('gratitude_categories', JSON.stringify(saved));
+            document.getElementById('category-text').value = '';
+            document.getElementById('category-input').style.display = 'none';
+            renderSaved('categories');
+            updateCounter();
+            showToast();
+        }
+
+        function saveJournal() {
+            var text = document.getElementById('journal-text').value;
+            if (!text) { showToast('אין מה לשמור'); return; }
+            var d = { text: text, date: getDate() };
+            var saved = JSON.parse(localStorage.getItem('gratitude_journal') || '[]');
+            saved.unshift(d);
+            localStorage.setItem('gratitude_journal', JSON.stringify(saved));
+            document.getElementById('journal-text').value = '';
+            renderSaved('journal');
+            updateCounter();
+            showToast();
+        }
+
+        function renderSaved(key) {
+            var container = document.getElementById(key + '-saved');
+            var saved = JSON.parse(localStorage.getItem('gratitude_' + key) || '[]');
+            var html = '';
+            saved.forEach(function(item, i) {
+                var text = '';
+                var speakText = '';
+                if (item.item1) { text += '1️⃣ ' + item.item1 + '<br>'; speakText += item.item1 + '. '; }
+                if (item.item2) { text += '2️⃣ ' + item.item2 + '<br>'; speakText += item.item2 + '. '; }
+                if (item.item3) { text += '3️⃣ ' + item.item3 + '<br>'; speakText += item.item3 + '. '; }
+                if (item.special) { text += '💫 ' + item.special + '<br>'; speakText += item.special + '. '; }
+                if (item.category) { text += item.category + ': '; speakText += item.category.replace(/[^\u0590-\u05FF\s]/g, '') + ': '; }
+                if (item.text) { text += item.text; speakText += item.text; }
+                html += '<div class="saved-item"><div class="saved-content">' + text + '<div class="saved-date">' + item.date + '</div></div><button class="speak-btn" onclick="speakGratitude(\'' + encodeURIComponent(speakText) + '\')" title="הקרא בקול">🔊</button><button class="delete-btn" onclick="deleteItem(\'' + key + '\',' + i + ')">✕</button></div>';
+            });
+            container.innerHTML = html;
+        }
+
+        ['daily', 'categories', 'journal'].forEach(renderSaved);
+        updateCounter();
+
+        // Reminder functions
+        var reminderMessages = [
+            '💧 זה הזמן להודות! על מה תודה היום?',
+            '✨ עצור רגע - מה הדבר הטוב שקרה לך?',
+            '🙏 הודיה פותחת שערי שפע!',
+            '💙 ההודיה מחברת אותנו לקדוש ברוך הוא!',
+            '🌟 מודה אני לפניך - על מה אתה מודה?'
+        ];
+        var reminderIntervals = {};
+
+        function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission();
+            }
+        }
+
+        function showNotification(message) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('פינת הודיה 💧', {
+                    body: message,
+                    icon: '💧',
+                    tag: 'gratitude-reminder'
+                });
+            }
+        }
+
+        function testNotification() {
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    var randomMsg = reminderMessages[Math.floor(Math.random() * reminderMessages.length)];
+                    showNotification(randomMsg);
+                    showToast('התראה נשלחה! 🔔');
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission().then(function(permission) {
+                        if (permission === 'granted') {
+                            testNotification();
+                        }
+                    });
+                } else {
+                    showToast('יש לאשר התראות בהגדרות הדפדפן');
+                }
+            } else {
+                showToast('הדפדפן לא תומך בהתראות');
+            }
+        }
+
+        function toggleReminder(type) {
+            var toggle = document.getElementById(type + '-toggle');
+            var timeInput = document.getElementById(type + '-time');
+            
+            if (toggle.checked) {
+                requestNotificationPermission();
+                setReminder(type, timeInput.value);
+            } else {
+                clearReminder(type);
+            }
+            saveReminders();
+        }
+
+        function setReminder(type, timeStr) {
+            clearReminder(type);
+            
+            var now = new Date();
+            var [hours, minutes] = timeStr.split(':').map(Number);
+            var reminderTime = new Date();
+            reminderTime.setHours(hours, minutes, 0, 0);
+            
+            if (reminderTime <= now) {
+                reminderTime.setDate(reminderTime.getDate() + 1);
+            }
+            
+            var delay = reminderTime - now;
+            
+            reminderIntervals[type] = setTimeout(function() {
+                var randomMsg = reminderMessages[Math.floor(Math.random() * reminderMessages.length)];
+                showNotification(randomMsg);
+                setReminder(type, timeStr);
+            }, delay);
+        }
+
+        function clearReminder(type) {
+            if (reminderIntervals[type]) {
+                clearTimeout(reminderIntervals[type]);
+                delete reminderIntervals[type];
+            }
+        }
+
+        function saveReminders() {
+            var settings = {
+                morning: { enabled: document.getElementById('morning-toggle').checked, time: document.getElementById('morning-time').value },
+                noon: { enabled: document.getElementById('noon-toggle').checked, time: document.getElementById('noon-time').value },
+                evening: { enabled: document.getElementById('evening-toggle').checked, time: document.getElementById('evening-time').value },
+                custom: { enabled: document.getElementById('custom-toggle').checked, time: document.getElementById('custom-time').value }
+            };
+            localStorage.setItem('gratitude_reminders', JSON.stringify(settings));
+            showToast('הגדרות תזכורות נשמרו! ⏰');
+        }
+
+        function loadReminders() {
+            var settings = JSON.parse(localStorage.getItem('gratitude_reminders') || '{}');
+            ['morning', 'noon', 'evening', 'custom'].forEach(function(type) {
+                if (settings[type]) {
+                    document.getElementById(type + '-toggle').checked = settings[type].enabled;
+                    document.getElementById(type + '-time').value = settings[type].time;
+                    if (settings[type].enabled) {
+                        setReminder(type, settings[type].time);
+                    }
+                }
+            });
+        }
+
+        loadReminders();
+        requestNotificationPermission();
+    </script>
+</body>
+</html>
